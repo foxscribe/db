@@ -1,0 +1,60 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+
+entity "ГОСТИНИЦА" as hotel {
+  * id_гостиницы : INT <<PK>>
+  --
+  название : STRING
+  адрес : STRING
+  телефон : STRING
+  количество_звёзд : INT
+}
+
+entity "КАТЕГОРИЯ_НОМЕРА" as category {
+  * id_категории : INT <<PK>>
+  --
+  название : STRING
+  описание : STRING
+  максимальная_вместимость : INT
+  уровень_комфорта : STRING
+}
+
+entity "НОМЕР" as room {
+  * id_номера : INT <<PK>>
+  --
+  номер_комнаты : INT
+  этаж : INT
+  площадь : DECIMAL
+  стоимость_за_ночь : DECIMAL
+  id_гостиницы : INT <<FK>>
+  id_категории : INT <<FK>>
+}
+
+entity "КЛИЕНТ" as client {
+  * id_клиента : INT <<PK>>
+  --
+  ФИО : STRING
+  паспорт : STRING
+  телефон : STRING
+  email : STRING
+}
+
+entity "БРОНИРОВАНИЕ" as booking {
+  * id_бронирования : INT <<PK>>
+  --
+  дата_заезда : DATE
+  дата_выезда : DATE
+  стоимость : DECIMAL
+  статус : STRING
+  id_клиента : INT <<FK>>
+  id_номера : INT <<FK>>
+}
+
+' === Связи ===
+hotel ||--o{ room : "содержит"
+category ||--o{ room : "классифицирует"
+client ||--o{ booking : "оформляет"
+room ||--o{ booking : "включено в"
+
+@enduml

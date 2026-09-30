@@ -1,0 +1,64 @@
+flowchart TD
+    %% === Сущности ===
+    E_Kat[Категория]
+    E_Tov[Товар]
+    E_Prod[Продавец]
+    E_Prodaja[Продажа]
+    E_Pok[Покупатель]
+
+    %% === Связи ===
+    R_Klass{Классифицирует}
+    R_Sover{Совершает}
+    R_Oform{Оформляет}
+    R_Vkl{Включает}
+
+    %% === Атрибуты сущностей ===
+    A_Kat1((Наименование))
+    A_Kat2((Описание))
+    A_Kat3((Налоговая_ставка))
+    A_Kat4((Дата_создания))
+
+    A_Tov1((Наименование))
+    A_Tov2((Описание))
+    A_Tov3((Цена))
+    A_Tov4((Единица_измерения))
+
+    A_Prod1((ФИО))
+    A_Prod2((Должность))
+    A_Prod3((Телефон))
+    A_Prod4((Дата_найма))
+
+    A_Prodaja1((Дата_и_время))
+    A_Prodaja2((Итоговая_сумма))
+    A_Prodaja3((Способ_оплаты))
+    A_Prodaja4((Статус))
+
+    A_Pok1((ФИО))
+    A_Pok2((Телефон))
+    A_Pok3((Email))
+    A_Pok4((Адрес))
+
+    %% === Атрибуты связи М:М ===
+    A_Vkl1((Количество))
+    A_Vkl2((Цена_на_момент))
+
+    %% === Связи Сущность-Атрибут ===
+    E_Kat --- A_Kat1 & A_Kat2 & A_Kat3 & A_Kat4
+    E_Tov --- A_Tov1 & A_Tov2 & A_Tov3 & A_Tov4
+    E_Prod --- A_Prod1 & A_Prod2 & A_Prod3 & A_Prod4
+    E_Prodaja --- A_Prodaja1 & A_Prodaja2 & A_Prodaja3 & A_Prodaja4
+    E_Pok --- A_Pok1 & A_Pok2 & A_Pok3 & A_Pok4
+    R_Vkl --- A_Vkl1 & A_Vkl2
+
+    %% === Связи Сущность-Связь с кратностью ===
+    E_Kat -- 1 --- R_Klass
+    R_Klass -- M --- E_Tov
+
+    E_Prod -- 1 --- R_Sover
+    R_Sover -- M --- E_Prodaja
+
+    E_Pok -- 1 --- R_Oform
+    R_Oform -- M --- E_Prodaja
+
+    E_Prodaja -- M --- R_Vkl
+    R_Vkl -- N --- E_Tov

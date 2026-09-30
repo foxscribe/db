@@ -1,0 +1,62 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+
+entity "ВРАЧ" as doctor {
+  * id_врача : INT <<PK>>
+  --
+  ФИО : STRING
+  специальность : STRING
+  стаж : INT
+  кабинет : STRING
+}
+
+entity "БОЛЬНОЙ" as patient {
+  * id_больного : INT <<PK>>
+  --
+  ФИО : STRING
+  дата_рождения : DATE
+  адрес : STRING
+  телефон : STRING
+}
+
+entity "ЛЕКАРСТВО" as medicine {
+  * id_лекарства : INT <<PK>>
+  --
+  название : STRING
+  действующее_вещество : STRING
+  форма_выпуска : STRING
+  дозировка : STRING
+}
+
+entity "ДИАГНОЗ" as diagnosis {
+  * id_диагноза : INT <<PK>>
+  --
+  код_МКБ : STRING
+  описание : STRING
+  степень_тяжести : STRING
+  дата_постановки : DATE
+  id_врача : INT <<FK>>
+  id_больного : INT <<FK>>
+}
+
+entity "НАЗНАЧЕНИЕ" as prescription {
+  * id_назначения : INT <<PK>>
+  --
+  дата_назначения : DATE
+  дозировка : STRING
+  длительность_курса_дней : INT
+  частота_приёма : STRING
+  id_врача : INT <<FK>>
+  id_больного : INT <<FK>>
+  id_лекарства : INT <<FK>>
+}
+
+' === Связи ===
+doctor ---{ prescription : "выписывает"
+patient ---{ prescription : "получает"
+medicine --{ prescription : "назначается в"
+
+doctor --{ diagnosis : "ставит"
+patient --{ diagnosis : "имеет"
+@enduml
