@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: lab5_postgres_db
+    environment:
+      POSTGRES_USER: student
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: lab5_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - lab5_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  lab5_network:
+    driver: bridge
